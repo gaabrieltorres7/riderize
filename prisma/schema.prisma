@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Pedais {
+  id                      Int      @id @default(autoincrement())
+  name                    String   @db.VarChar(255)
+  start_date              DateTime @db.Date
+  start_date_registration DateTime @default(now()) @db.Date
+  end_date_registration   DateTime @db.Date
+  additional_information  String?  @db.VarChar(255)
+  start_place             String   @db.VarChar(255)
+  participants_limit      Int?
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+  author                  User     @relation(fields: [authorId], references: [id])
+  authorId                Int
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(255)
+  email     String   @unique @db.VarChar(255)
+  password  String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  pedais    Pedais[]
+}
