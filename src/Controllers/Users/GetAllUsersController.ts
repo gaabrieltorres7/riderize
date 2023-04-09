@@ -9,7 +9,8 @@ export class GetAllUsersController {
   }
 
   async handle(req: Request, res: Response) {
-    const users = await this.userRepository.findAll();
+    const { skip, take } = req.query;
+    const users = await this.userRepository.findAll(Number(skip), Number(take));
     return res.status(200).json(users);
   }
 }

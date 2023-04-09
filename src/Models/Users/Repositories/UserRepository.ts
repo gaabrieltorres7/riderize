@@ -8,6 +8,7 @@ export class UserRepository implements IUser  {
   constructor(prisma: PrismaClient) {
     this.prisma = prisma;
   }
+
   async create({name, email, password}: ICreateUserDTO): Promise<ICreateUserDTO> {
     const user = await this.prisma.user.create({
       data: {
@@ -18,6 +19,15 @@ export class UserRepository implements IUser  {
     });
     return user;
   }
+
+  async findAll(skip?: number, take?: number){
+    const users = await this.prisma.user.findMany({
+      skip: skip ? skip : 0,
+      take: take ? take : 10,
+    });
+    return users;
+  }
+
   async findByEmail(email: string){
     const user = await this.prisma.user.findFirst({
       where: {
@@ -26,12 +36,10 @@ export class UserRepository implements IUser  {
     });
     return user;
   }
+
   async findById(id: number) {
     const user = await this.prisma.user.findFirst({ where: { id }});
     return user;
   }
-  async findAll(){ // TODO: Paginate
-    const users = await this.prisma.user.findMany();
-    return users;
-  }
+
 }
