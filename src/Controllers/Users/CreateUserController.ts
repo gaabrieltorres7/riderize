@@ -14,7 +14,7 @@ export class CreateUserController {
   async handle(req: Request, res: Response) {
     const { name, email, password } = req.body;
     const errors = this.validation.validate({ name, email, password });
-    if (errors.length > 0) { return res.status(400).json({ errors }); }
+    if (errors.length > 0) { return res.status(400).json({ message: 'Validation failed', errors })};
 
     const findUserByEmail = await this.userRepository.findByEmail(email);
     if (findUserByEmail) {

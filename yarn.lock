@@ -236,6 +236,7 @@ __metadata:
     "@prisma/client": ^4.12.0
     "@types/express": ^4.17.17
     "@types/uuid": ^9.0.1
+    dayjs: ^1.11.7
     dot-env: ^0.0.1
     dotenv: ^16.0.3
     express: ^4.18.2
@@ -559,6 +560,13 @@ __metadata:
   version: 1.1.1
   resolution: "create-require@npm:1.1.1"
   checksum: a9a1503d4390d8b59ad86f4607de7870b39cad43d929813599a23714831e81c520bddf61bcdd1f8e30f05fd3a2b71ae8538e946eb2786dc65c2bbc520f692eff
+  languageName: node
+  linkType: hard
+
+"dayjs@npm:^1.11.7":
+  version: 1.11.7
+  resolution: "dayjs@npm:1.11.7"
+  checksum: 5003a7c1dd9ed51385beb658231c3548700b82d3548c0cfbe549d85f2d08e90e972510282b7506941452c58d32136d6362f009c77ca55381a09c704e9f177ebb
   languageName: node
   linkType: hard
 

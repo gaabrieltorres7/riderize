@@ -30,7 +30,7 @@ export class UserRepository implements IUser  {
     const user = await this.prisma.user.findFirst({ where: { id }});
     return user;
   }
-  async findAll(){
+  async findAll(){ // TODO: Paginate
     const users = await this.prisma.user.findMany();
     return users;
   }

@@ -11,9 +11,9 @@ const createUserController = new CreateUserController(userRepository);
 const getUserController = new GetUserController(userRepository);
 const getAllUsersController = new GetAllUsersController(userRepository);
 
+router.post("/create", (req, res) => createUserController.handle(req, res));
 router.get("/all", (req, res) => getAllUsersController.handle(req, res));
 router.get("/:id", (req, res) => getUserController.handle(req, res));
-router.post("/create", (req, res) => createUserController.handle(req, res));
 
 export default router;
 
