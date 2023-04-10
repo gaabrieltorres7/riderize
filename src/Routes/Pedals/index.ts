@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { Authentication } from '../../Middlewares/Authentication';
 import { CreatePedalController, ShowPedalsController, FindPedalByAuthorController } from '../../Controllers/Pedals';
 import { PedalRepository } from '../../Models/Pedals/Repositories/PedalRepository';
 import { PrismaClient } from '@prisma/client';
@@ -10,6 +11,8 @@ const pedalRepository = new PedalRepository(prisma);
 const createPedalController = new CreatePedalController(pedalRepository);
 const showPedalsController = new ShowPedalsController(pedalRepository);
 const findPedalByAuthorController = new FindPedalByAuthorController(pedalRepository);
+
+router.use(Authentication);
 
 router.post('/create', (req, res) => createPedalController.handle(req, res));
 router.get('/all', (req, res) => showPedalsController.handle(req, res));
