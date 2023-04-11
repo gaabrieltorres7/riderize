@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { UserRepository } from '../../Models/Users/Repositories/UserRepository';
 import { Validation } from '../../Utils';
+import { hash } from 'bcrypt';
 
 export class CreateUserController {
   private userRepository: UserRepository;
@@ -21,10 +22,11 @@ export class CreateUserController {
       return res.status(400).json({ error: 'User already exists' });
     }
 
+    const hashedPassword = await hash(password, 8);
     const user = await this.userRepository.create({
       name,
       email,
-      password,
+      password: hashedPassword,
     });
 
     return res.status(201).json({

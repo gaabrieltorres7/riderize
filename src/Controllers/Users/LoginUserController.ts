@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { UserRepository } from "../../Models/Users/Repositories/UserRepository";
 import { Validation } from "../../Utils";
 import jwt from "jsonwebtoken";
+import { compare } from "bcrypt";
 
 export class LoginUserController {
   private userRepository: UserRepository;
@@ -22,7 +23,9 @@ export class LoginUserController {
 
     if (!user) return res.status(404).json({ message: "Invalid credentials" });
 
-    if(user.password !== password) {
+    const passwordMatch = await compare(password, user.password);
+
+    if(!passwordMatch) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
