@@ -10,8 +10,8 @@ export class PedalRepository implements IPedal {
     this.prisma = prisma;
   }
 
-  create({ name, start_date, end_date_registration, additional_information, start_place, participants_limit, authorId }: ICreatePedalDTO): Promise<ICreatePedalDTO> {
-    const pedal = this.prisma.pedais.create({
+  async create({ name, start_date, end_date_registration, additional_information, start_place, participants_limit, authorId }: ICreatePedalDTO): Promise<ICreatePedalDTO> {
+    const pedal = await this.prisma.pedais.create({
       data: {
         name,
         start_date,
@@ -25,16 +25,16 @@ export class PedalRepository implements IPedal {
     return pedal;
   }
 
-  findAll(skip?: number, take?: number): Promise<ICreatePedalDTO[]> {
-    const pedal = this.prisma.pedais.findMany({
+  async findAll(skip?: number, take?: number): Promise<ICreatePedalDTO[]> {
+    const pedal = await this.prisma.pedais.findMany({
       skip: skip ? skip : 0,
       take: take ? take : 10,
     });
     return pedal;
   }
 
-  findByAuthor(author: string): Promise<ICreatePedalDTO[]> {
-    const pedal = this.prisma.pedais.findMany({
+  async findByAuthor(author: string): Promise<ICreatePedalDTO[]> {
+    const pedal = await this.prisma.pedais.findMany({
       where: {
         author: {
           name: author
@@ -44,8 +44,8 @@ export class PedalRepository implements IPedal {
     return pedal;
   }
 
-  findByName(name: string): Promise<ICreatePedalDTO> {
-    const pedal = this.prisma.pedais.findFirst({
+  async findByName(name: string): Promise<ICreatePedalDTO> {
+    const pedal = await this.prisma.pedais.findFirst({
       where: {
         name
       }
