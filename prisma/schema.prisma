@@ -20,7 +20,6 @@ model Pedais {
   createdAt               DateTime               @default(now())
   updatedAt               DateTime               @updatedAt
   authorId                Int
-  start_place_photo       String?                @db.VarChar(255)
   author                  User                   @relation(fields: [authorId], references: [id])
   Subscription            SubscriptionOnPedais[]
 }
@@ -32,6 +31,7 @@ model User {
   password     String                 @db.VarChar(255)
   createdAt    DateTime               @default(now())
   updatedAt    DateTime               @updatedAt
+  refreshToken String?                @db.VarChar(255)
   pedais       Pedais[]
   Subscription SubscriptionOnPedais[]
 }
