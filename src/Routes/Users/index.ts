@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { Router } from "express";
-import { CreateUserController, GetUserController, GetAllUsersController, LoginUserController, GetProfileController } from "../../Controllers/Users";
+import { CreateUserController, GetUserController, GetAllUsersController, LoginUserController, GetProfileController, RefreshTokenController } from "../../Controllers/Users";
 import { UserRepository } from "../../Models/Users/Repositories/UserRepository";
 import { Authentication } from '../../Middlewares/';
 
@@ -13,9 +13,11 @@ const getUserController = new GetUserController(userRepository);
 const getAllUsersController = new GetAllUsersController(userRepository);
 const loginUserController = new LoginUserController(userRepository);
 const getProfileController = new GetProfileController(userRepository);
+const refreshTokenController = new RefreshTokenController(userRepository);
 
 
 router.post("/login", (req, res) => loginUserController.handle(req, res));
+router.post("/refresh-token", (req, res) => refreshTokenController.handle(req, res));
 
 router.use(Authentication);
 

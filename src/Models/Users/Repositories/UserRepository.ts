@@ -42,4 +42,14 @@ export class UserRepository implements IUser  {
     return user;
   }
 
+  async findUserByRefreshToken(refreshToken: string) {
+    const findUser = await this.prisma.user.findFirst({ where: { refreshToken } });
+    return findUser;
+  }
+
+  async updateRefreshToken(id: number, refreshToken: string) {
+    const user = await this.prisma.user.update({ where: { id }, data: { refreshToken } });
+    return user;
+  }
+
 }
