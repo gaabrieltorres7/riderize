@@ -24,6 +24,15 @@ export class SubscriptionsRepository implements ISubscription {
     return subscription;
   }
 
+  async findByUserId(user_id: number): Promise<ISubscriptionDto> {
+    const subscription = await this.prisma.subscriptionOnPedais.findFirst({
+      where: {
+        user_id,
+      },
+    });
+    return subscription;
+  }
+
   async findManyByUserId(user_id: number): Promise<SubscriptionOnPedais[]> {
     const subscription = await this.prisma.subscriptionOnPedais.findMany({
       where: {
@@ -42,12 +51,13 @@ export class SubscriptionsRepository implements ISubscription {
     return subscription;
   }
 
-  async findAll(skip?: number, take?: number): Promise<ISubscriptionDto[]> {
-    const subscriptions = await this.prisma.subscriptionOnPedais.findMany({
-      skip: skip ? skip : 0,
-      take: take ? take : 10,
+  async listPedalsUserParticipated(user_id: number): Promise<SubscriptionOnPedais[]> {
+    const subscription = await this.prisma.subscriptionOnPedais.findMany({
+      where: {
+        user_id,
+      },
     });
-    return subscriptions;
+    return subscription;
   }
 
   async findSubscriptionByRideIdAndUserId(ride_id: number, user_id: number): Promise<SubscriptionOnPedais | null> {
