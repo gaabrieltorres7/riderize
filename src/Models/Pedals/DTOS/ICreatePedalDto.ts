@@ -1,5 +1,3 @@
-import { User } from "@prisma/client";
-
 interface ICreatePedalDTO {
   name: string;
   start_date: Date;
@@ -8,6 +6,7 @@ interface ICreatePedalDTO {
   start_place: string;
   participants_limit?: number;
   authorId: number;
+  Subscription?: number[];
 }
 
 export { ICreatePedalDTO }

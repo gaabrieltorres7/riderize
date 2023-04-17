@@ -52,4 +52,13 @@ export class PedalRepository implements IPedal {
     });
     return pedal;
   }
+
+  async findById(id: number): Promise<ICreatePedalDTO> {
+    const pedal = await this.prisma.pedais.findFirst({
+      where: {
+        id
+      }
+    });
+    return pedal;
+  }
 }
