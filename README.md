@@ -22,8 +22,15 @@ To enable users to join pedals, the following data must be provided:
   - Prisma
   - Docker
   
-<h4 align="center"> 
-	🚧 Work in progress...  🚧
-</h4>
+## How to run this project:
+
+you need to have Docker installed****
+
+- Clone this repository: git clone https://github.com/gaabrieltorres7/riderize.git
+- Install the dependencies: cd riderize > npm install
+- Create a .env file and set the environment variables required.
+- Start the database and app using Docker: docker compose up
+- Run the database migrations: npx prisma migrate dev
+
 
 
