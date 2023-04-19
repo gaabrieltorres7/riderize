@@ -3,6 +3,7 @@ import { UserRepository } from '../../Models/Users/Repositories/UserRepository';
 import jwt from 'jsonwebtoken';
 import { v4 } from 'uuid';
 import { Validation } from '../../Utils';
+import { AppError } from '../../Errors/AppError';
 
 export class RefreshTokenController {
   private userRepository: UserRepository;
@@ -19,7 +20,7 @@ export class RefreshTokenController {
 
     const { refreshToken } = req.body;
     const user = await this.userRepository.findUserByRefreshToken(refreshToken);
-    if(!user) return res.status(404).json({ message: 'Refresh token invalid' });
+    if(!user) throw new AppError('Invalid refresh token', 404);
 
     const newRefreshToken = await this.generateRefreshToken(user.id);
     const token = jwt.sign({id: user.id, email: user.email}, process.env.JWT_SECRET ?? '', { expiresIn: '1d' });

@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { PedalRepository } from '../../Models/Pedals/Repositories/PedalRepository';
 import { Validation } from '../../Utils';
+import { AppError } from '../../Errors/AppError';
 
 export class CreatePedalController {
   private pedalRepository: PedalRepository;
@@ -22,7 +23,7 @@ export class CreatePedalController {
     }
 
     const pedalNameAlreadyExists = await this.pedalRepository.findByName(name);
-    if (pedalNameAlreadyExists) { return res.status(400).json({ error: 'Pedal name already exists' }); }
+    if (pedalNameAlreadyExists) { throw new AppError('Pedal name already exists') }
 
     const pedal = await this.pedalRepository.create({ name, start_date, end_date_registration, additional_information, start_place, participants_limit, authorId: id });
 

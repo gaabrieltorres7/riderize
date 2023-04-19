@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { UserRepository } from '../../Models/Users/Repositories/UserRepository';
 import { Validation } from '../../Utils';
 import { hash } from 'bcrypt';
+import { AppError } from '../../Errors/AppError';
 
 export class CreateUserController {
   private userRepository: UserRepository;
@@ -18,9 +19,7 @@ export class CreateUserController {
     if (errors.length > 0) { return res.status(400).json({ message: 'Validation failed', errors })};
 
     const findUserByEmail = await this.userRepository.findByEmail(email);
-    if (findUserByEmail) {
-      return res.status(400).json({ error: 'User already exists' });
-    }
+    if (findUserByEmail) throw new AppError('User already exists');
 
     const hashedPassword = await hash(password, 8);
     const user = await this.userRepository.create({

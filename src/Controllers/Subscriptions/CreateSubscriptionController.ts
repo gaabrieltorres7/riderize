@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { SubscriptionsRepository } from "../../Models/Subscriptions/Repositories/SubscriptionsRepository";
 import { PedalRepository } from "../../Models/Pedals/Repositories/PedalRepository";
 import { Validation } from "../../Utils";
+import { AppError } from "../../Errors/AppError";
 
 export class CreateSubscriptionController {
   private subscriptionsRepository: SubscriptionsRepository;
@@ -23,23 +24,17 @@ export class CreateSubscriptionController {
 
     const findManyByRideId = await this.subscriptionsRepository.findManyByRideId(ride_id);
     const findSubscriptionByRideIdAndUserId = await this.subscriptionsRepository.findSubscriptionByRideIdAndUserId(ride_id, id);
-    if (findSubscriptionByRideIdAndUserId) {
-      return res.status(400).json({
-        message: 'User already subscribed to this ride'
-      })
-    }
+    if (findSubscriptionByRideIdAndUserId) { throw new AppError('User already subscribed to this ride')}
 
     const pedal = await this.pedalRepository.findById(ride_id);
-    if (!pedal) {
-      return res.status(404).json({ message: 'Pedal not found' });
-    }
+    if (!pedal) { throw new AppError('Pedal not found', 404) }
 
     const { participants_limit, end_date_registration } = pedal;
 
 
-    if( findManyByRideId.length >= participants_limit) { return res.status(400).json( { message: 'Pedal is full' }); }
+    if( findManyByRideId.length >= participants_limit) { throw new AppError('Participants limit reached')}
 
-    if(end_date_registration < new Date()) { return res.status(400).json({ message: 'Registration is closed' }); }
+    if(end_date_registration < new Date()) { throw new AppError('Registration period has ended') }
 
     const subscription = await this.subscriptionsRepository.create({
       ride_id,

@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { PedalRepository } from '../../Models/Pedals/Repositories/PedalRepository';
+import { AppError } from '../../Errors/AppError';
 
 export class FindPedalByAuthorController {
   private pedalRepository: PedalRepository;
@@ -8,12 +9,12 @@ export class FindPedalByAuthorController {
     this.pedalRepository = pedalRepository;
   }
 
-  async handle(req: Request, res: Response) { // validar se USER existe
+  async handle(req: Request, res: Response) {
     const { author } = req.query;
-    if(!author) return res.status(400).json({ error: 'Author query is required' });
+    if(!author) throw new AppError('Author is required');
 
     const pedals = await this.pedalRepository.findByAuthor(String(author));
-    if(pedals.length === 0){ return res.status(400).json({ error: 'No pedals was created by this user' })}
+    if(pedals.length === 0){ throw new AppError('No pedals found for this user', 404)}
 
     return res.status(200).json({ pedals });
   }

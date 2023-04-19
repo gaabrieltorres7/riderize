@@ -4,6 +4,7 @@ import { Validation } from "../../Utils";
 import { v4 } from "uuid";
 import jwt from "jsonwebtoken";
 import { compare } from "bcrypt";
+import { AppError } from "../../Errors/AppError";
 
 export class LoginUserController {
   private userRepository: UserRepository;
@@ -22,12 +23,12 @@ export class LoginUserController {
 
     const user = await this.userRepository.findByEmail(email);
 
-    if (!user) return res.status(404).json({ message: "Invalid credentials" });
+    if (!user) throw new AppError("Invalid Credentials", 404);
 
     const passwordMatch = await compare(password, user.password);
 
     if(!passwordMatch) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      throw new AppError("Invalid Credentials", 401);
     }
 
     const refreshToken = await this.generateRefreshToken(user.id);
