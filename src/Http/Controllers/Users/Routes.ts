@@ -1,19 +1,11 @@
-import { PrismaClient } from "@prisma/client";
 import { Router } from "express";
 import { CreateUserController, GetUserController, GetAllUsersController, LoginUserController, GetProfileController, RefreshTokenController } from "../../Controllers/Users";
-import { PrismaUserRepository } from "../../../Repositories/Prisma/Prisma-UserRepository";
 import { Authentication } from '../../Middlewares/'; 
 
 export const router = Router();
 
-const prisma = new PrismaClient();
-const userRepository = new PrismaUserRepository(prisma);
-const loginUserController = new LoginUserController(userRepository);
-const refreshTokenController = new RefreshTokenController(userRepository);
-
-
-router.post("/login", (req, res) => loginUserController.handle(req, res));
-router.post("/refresh-token", (req, res) => refreshTokenController.handle(req, res));
+router.post("/login", (req, res) => LoginUserController(req, res));
+router.post("/refresh-token", (req, res) => RefreshTokenController(req, res));
 router.post("/create", (req, res) => CreateUserController(req, res));
 
 router.use(Authentication);
