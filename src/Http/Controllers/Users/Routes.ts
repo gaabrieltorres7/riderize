@@ -8,7 +8,6 @@ export const router = Router();
 
 const prisma = new PrismaClient();
 const userRepository = new PrismaUserRepository(prisma);
-const getUserController = new GetUserController(userRepository);
 const loginUserController = new LoginUserController(userRepository);
 const refreshTokenController = new RefreshTokenController(userRepository);
 
@@ -21,6 +20,6 @@ router.use(Authentication);
 
 router.get("/all", (req, res) => GetAllUsersController(req, res));
 router.get("/profile", (req, res) => GetProfileController(req, res));
-router.get("/:id", (req, res) => getUserController.handle(req, res));
+router.get("/:id", (req, res) => GetUserController(req, res));
 
 export default router;
