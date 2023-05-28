@@ -9,12 +9,11 @@ const router = Router();
 const prisma = new PrismaClient();
 const pedalRepository = new PrismaPedalRepository(prisma);
 const createPedalController = new CreatePedalController(pedalRepository);
-const findPedalByAuthorController = new FindPedalByAuthorController(pedalRepository);
 
 router.use(Authentication);
 
 router.post('/create', (req, res) => createPedalController.handle(req, res));
 router.get('/all', (req, res) => ShowPedalsController(req, res));
-router.get('/author', (req, res) => findPedalByAuthorController.handle(req, res));
+router.get('/author', (req, res) => FindPedalByAuthorController(req, res));
 
 export default router;
