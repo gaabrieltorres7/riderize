@@ -4,8 +4,8 @@ import { makeCreateUserUseCase } from '../../../UseCases/Factories/Make-Create-U
 import { UserAlreadyExistsError } from '../../../UseCases/Errors';
 
 export async function CreateUserController (req: Request, res: Response) {
-  const validation = new Validation(['name', 'email', 'password']);
   const { name, email, password } = req.body;
+  const validation = new Validation(['name', 'email', 'password']);
   const errors = validation.validate({ name, email, password });
   if (errors.length > 0) { return res.status(400).json({ message: 'Validation failed', errors }) };
 

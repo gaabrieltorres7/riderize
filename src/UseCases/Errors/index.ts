@@ -1,2 +1,5 @@
 export * from './User-already-exists-error'
 export * from './Resource-not-found-error'
+export * from './Participants-limit-reached-error'
+export * from './User-already-subscribed-error'
+export * from './Registration-period-ended-error'
