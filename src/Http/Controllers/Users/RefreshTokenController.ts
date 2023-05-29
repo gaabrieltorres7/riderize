@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { v4 } from 'uuid';
 import { Validation } from '../../../Utils';
+import { PrismaClient } from '@prisma/client';
+import { PrismaUserRepository } from '../../../Repositories/Prisma/Prisma-UserRepository';
 
 export async function RefreshTokenController(req: Request, res: Response) {
   const { refreshToken } = req.body;
@@ -17,6 +19,8 @@ export async function RefreshTokenController(req: Request, res: Response) {
 
   async function generateRefreshToken(id: number) {
     const refreshToken = v4();
-    await this.userRepository.updateRefreshToken(id, refreshToken);
+    const prisma = new PrismaClient();
+    const userRepository = new PrismaUserRepository(prisma);
+    await userRepository.updateRefreshToken(id, refreshToken);
     return refreshToken;
   }
