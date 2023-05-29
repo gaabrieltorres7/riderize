@@ -1,8 +1,8 @@
 import express from 'express';
 // import "express-async-errors"
 import UserRoute from './Http/Controllers/Users/Routes';
-import PedalRoute from './Routes/Pedals';
-import SubscriptionRoute from './Routes/Subscriptions';
+import PedalRoute from './Http/Controllers/Pedals/Routes';
+import SubscriptionRoute from './Http/Controllers/Subscriptions/Routes';
 // import { AppError } from './Errors/AppError';
 
 require('dotenv').config();
