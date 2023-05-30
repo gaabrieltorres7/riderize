@@ -3,7 +3,7 @@ import "express-async-errors"
 import UserRoute from './Http/Controllers/Users/Routes';
 import PedalRoute from './Http/Controllers/Pedals/Routes';
 import SubscriptionRoute from './Http/Controllers/Subscriptions/Routes';
-import { ResourceNotFoundError, ParticipantsLimitReachedError, RegistrationPeriodEndedError, UserAlreadyExistsError, UserAlreadySubscribedError } from './UseCases/Errors';
+import { ResourceNotFoundError, ParticipantsLimitReachedError, RegistrationPeriodEndedError, UserAlreadyExistsError, UserAlreadySubscribedError, InvalidCredentialsError, PedalNameAlreadyExistsError } from './UseCases/Errors';
 
 require('dotenv').config();
 
@@ -28,6 +28,10 @@ app.use(
   }else if(err instanceof RegistrationPeriodEndedError) {
     return res.status(409).json({message: err.message});
   }else if(err instanceof ParticipantsLimitReachedError) {
+    return res.status(409).json({message: err.message});
+  }else if(err instanceof InvalidCredentialsError) {
+    return res.status(400).json({message: err.message});
+  }else if(err instanceof PedalNameAlreadyExistsError) {
     return res.status(409).json({message: err.message});
   }
   console.log(err)
