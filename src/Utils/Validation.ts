@@ -1,19 +1,19 @@
 export class Validation {
-  private readonly fields: string[];
+  private readonly fields: string[]
 
   constructor(fields: string[]) {
-      this.fields = fields;
+    this.fields = fields
   }
 
   public validate(data: any) {
-      const errors: string[] = [];
+    const errors: string[] = []
 
-      this.fields.forEach(field => {
-          if (!data[field]) {
-              errors.push(`Field ${field} is required.`);
-          }
-      });
+    this.fields.forEach((field) => {
+      if (!data[field]) {
+        errors.push(`Field ${field} is required.`)
+      }
+    })
 
-      return errors;
+    return errors
   }
 }

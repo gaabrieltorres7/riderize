@@ -1,12 +1,12 @@
-import { PrismaClient } from "@prisma/client";
-import { ListPedalsUserParticipatedUseCase } from "../ListPedalsUserParticipatedUseCase";
-import { PrismaSubscriptionsRepository } from "../../Repositories/Prisma/Prisma-SubscriptionsRepository";
+import { PrismaClient } from '@prisma/client'
+import { ListPedalsUserParticipatedUseCase } from '../ListPedalsUserParticipatedUseCase'
+import { PrismaSubscriptionsRepository } from '../../Repositories/Prisma/Prisma-SubscriptionsRepository'
 
 export function makeListPedalsUserParticipatedUseCase() {
-  const prisma = new PrismaClient();
-  const subscriptionsRepository = new PrismaSubscriptionsRepository(prisma);
+  const prisma = new PrismaClient()
+  const subscriptionsRepository = new PrismaSubscriptionsRepository(prisma)
 
-  const useCase = new ListPedalsUserParticipatedUseCase(subscriptionsRepository);
+  const useCase = new ListPedalsUserParticipatedUseCase(subscriptionsRepository)
 
-  return useCase;
+  return useCase
 }

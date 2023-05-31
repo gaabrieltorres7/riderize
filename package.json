@@ -5,7 +5,7 @@
     "dev": "ts-node-dev --inspect --transpile-only --poll --ignore-watch node_modules src/server.ts",
     "test": "vitest run",
     "test:watch": "vitest",
-    "lint": "eslint . --fix"
+    "lint": "eslint src --ext .ts --fix"
   },
   "devDependencies": {
     "@rocketseat/eslint-config": "^1.2.0",

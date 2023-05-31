@@ -1,2 +1,2 @@
-export * from "./SubscriptionController";
-export * from "./ListPedalsUserParticipatedController";
+export * from './SubscriptionController'
+export * from './ListPedalsUserParticipatedController'

@@ -1,16 +1,16 @@
-import { PrismaClient } from '@prisma/client';
-import { ISubscriptionRepository } from '../SubscriptionRepository';
+import { PrismaClient } from '@prisma/client'
+import { ISubscriptionRepository } from '../SubscriptionRepository'
 
 export type SubscriptionOnPedais = {
-  ride_id: number;
-  user_id: number;
-};
+  ride_id: number
+  user_id: number
+}
 
-export class PrismaSubscriptionsRepository implements ISubscriptionRepository { 
-  private prisma: PrismaClient;
+export class PrismaSubscriptionsRepository implements ISubscriptionRepository {
+  private prisma: PrismaClient
 
   constructor(prisma: PrismaClient) {
-    this.prisma = prisma;
+    this.prisma = prisma
   }
 
   async create({ ride_id, user_id }: SubscriptionOnPedais) {
@@ -19,8 +19,8 @@ export class PrismaSubscriptionsRepository implements ISubscriptionRepository {
         ride_id,
         user_id,
       },
-    });
-    return subscription;
+    })
+    return subscription
   }
 
   async findByUserId(user_id: number) {
@@ -28,8 +28,8 @@ export class PrismaSubscriptionsRepository implements ISubscriptionRepository {
       where: {
         user_id,
       },
-    });
-    return subscription;
+    })
+    return subscription
   }
 
   async findManyByUserId(user_id: number) {
@@ -37,8 +37,8 @@ export class PrismaSubscriptionsRepository implements ISubscriptionRepository {
       where: {
         user_id,
       },
-    });
-    return subscription;
+    })
+    return subscription
   }
 
   async findManyByRideId(ride_id: number) {
@@ -46,8 +46,8 @@ export class PrismaSubscriptionsRepository implements ISubscriptionRepository {
       where: {
         ride_id,
       },
-    });
-    return subscription;
+    })
+    return subscription
   }
 
   async listPedalsUserParticipated(user_id: number) {
@@ -55,8 +55,8 @@ export class PrismaSubscriptionsRepository implements ISubscriptionRepository {
       where: {
         user_id,
       },
-    });
-    return subscription;
+    })
+    return subscription
   }
 
   async findSubscriptionByRideIdAndUserId(ride_id: number, user_id: number) {
@@ -67,7 +67,7 @@ export class PrismaSubscriptionsRepository implements ISubscriptionRepository {
           user_id,
         },
       },
-    });
-    return subscription;
+    })
+    return subscription
   }
 }
