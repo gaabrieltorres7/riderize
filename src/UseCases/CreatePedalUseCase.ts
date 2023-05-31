@@ -1,5 +1,4 @@
 import { Pedais } from '@prisma/client'
-import { ResourceNotFoundError } from './Errors'
 import { IPedalRepository } from '../Repositories/PedalRepository'
 import { PedalNameAlreadyExistsError } from './Errors/Pedal-name-already-exists-error'
 

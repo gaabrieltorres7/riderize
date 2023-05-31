@@ -2,7 +2,6 @@ import { User } from '@prisma/client'
 import { IUserRepository } from '../Repositories/UserRepository'
 import { InvalidCredentialsError } from './Errors/Invalid-credentials-error'
 import { compare } from 'bcrypt'
-import { v4 } from 'uuid'
 
 interface LoginUserUseCaseRequest {
   email: string
