@@ -2,6 +2,7 @@ import { it, expect, describe, beforeEach } from 'vitest'
 import { LoginUserUseCase } from './LoginUserUseCase'
 import { InMemoryUserRepository } from '../Repositories/In-Memory/In-Memory-UserRepository'
 import { hash } from 'bcrypt'
+import { InvalidCredentialsError } from './Errors/'
 
 let usersRepository: InMemoryUserRepository
 let sut: LoginUserUseCase
@@ -16,7 +17,7 @@ describe('Login User useCase', () => {
     await usersRepository.create({
       name: 'any_name',
       email: 'valid_email@mail.com',
-      password: await hash('valid_password', 8),
+      password: await hash('valid_password', 6),
     })
 
     const { user } = await sut.execute({
@@ -25,5 +26,14 @@ describe('Login User useCase', () => {
     })
 
     expect(user).toHaveProperty('id')
+  })
+
+  it('should not be able to login with wrong email', async () => {
+    await expect(() =>
+      sut.execute({
+        email: 'invalid_email@mail.com',
+        password: 'valid_password',
+      }),
+    ).rejects.toBeInstanceOf(InvalidCredentialsError)
   })
 })
