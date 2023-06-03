@@ -36,4 +36,18 @@ describe('Login User useCase', () => {
       }),
     ).rejects.toBeInstanceOf(InvalidCredentialsError)
   })
+
+  it('should not be able to login with wrong password', async () => {
+    await usersRepository.create({
+      name: 'valid_name',
+      email: 'valid_email@mail.com',
+      password: await hash('valid_password', 6),
+    })
+    await expect(() =>
+      sut.execute({
+        email: 'valid_email@mail.com',
+        password: 'invalid_password',
+      }),
+    ).rejects.toBeInstanceOf(InvalidCredentialsError)
+  })
 })
