@@ -2,6 +2,7 @@ import { it, expect, describe, beforeEach } from 'vitest'
 import { InMemoryUserRepository } from '../Repositories/In-Memory/In-Memory-UserRepository'
 import { compare } from 'bcrypt'
 import { CreateUserUseCase } from './CreateUserUseCase'
+import { UserAlreadyExistsError } from './Errors'
 
 let usersRepository: InMemoryUserRepository
 let sut: CreateUserUseCase
@@ -31,5 +32,21 @@ describe('Create User useCase', () => {
 
     const isPasswordHashed = await compare('valid_password', user.password)
     expect(isPasswordHashed).toBe(true)
+  })
+
+  it('should not be able to create an user with same email', async () => {
+    await sut.execute({
+      name: 'any_name',
+      email: 'same_email@mail.com',
+      password: 'valid_password',
+    })
+
+    await expect(() =>
+      sut.execute({
+        name: 'any_name',
+        email: 'same_email@mail.com',
+        password: 'valid_password',
+      }),
+    ).rejects.toBeInstanceOf(UserAlreadyExistsError)
   })
 })
