@@ -5,7 +5,7 @@ import { InMemoryUserRepository } from '../Repositories/In-Memory/In-Memory-User
 let usersRepository: InMemoryUserRepository
 let sut: GetUsersUseCase
 
-describe('Create User useCase', () => {
+describe('Get Users useCase', () => {
   beforeEach(() => {
     usersRepository = new InMemoryUserRepository()
     sut = new GetUsersUseCase(usersRepository)
@@ -30,5 +30,23 @@ describe('Create User useCase', () => {
     })
     expect(users).toHaveLength(2)
     expect(users[0].name).toBe('any_name')
+  })
+
+  it('should be able to get users with pagination', async () => {
+    for (let i = 1; i <= 10; i++) {
+      await usersRepository.create({
+        name: 'any_name',
+        email: `valid_email${i}@mail.com`,
+        password: 'valid_password',
+      })
+    }
+
+    const { users } = await sut.execute({
+      skip: 0,
+      take: 5,
+    })
+
+    expect(users).toHaveLength(5)
+    expect(users[0].email).toBe('valid_email1@mail.com')
   })
 })
