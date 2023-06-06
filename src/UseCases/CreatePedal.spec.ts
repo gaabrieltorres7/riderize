@@ -1,6 +1,7 @@
 import { it, expect, describe, beforeEach } from 'vitest'
 import { InMemoryPedalRepository } from '../Repositories/In-Memory/In-Memory-PedalRepository'
 import { CreatePedalUseCase } from './CreatePedalUseCase'
+import { PedalNameAlreadyExistsError } from './Errors'
 
 let pedalRepository: InMemoryPedalRepository
 let sut: CreatePedalUseCase
@@ -23,5 +24,29 @@ describe('Create Pedal useCase', () => {
     })
 
     expect(pedal).toHaveProperty('id')
+  })
+
+  it('should not be able to create a pedal with the same name', async () => {
+    await sut.execute({
+      name: 'Teste',
+      start_date: new Date(2020, 1, 1),
+      end_date_registration: new Date(2020, 1, 1),
+      additional_information: 'Teste',
+      start_place: 'Teste',
+      participants_limit: 10,
+      user_id: 1,
+    })
+
+    await expect(() =>
+      sut.execute({
+        name: 'Teste',
+        start_date: new Date(2020, 1, 1),
+        end_date_registration: new Date(2020, 1, 1),
+        additional_information: 'Teste',
+        start_place: 'Teste',
+        participants_limit: 10,
+        user_id: 1,
+      }),
+    ).rejects.toBeInstanceOf(PedalNameAlreadyExistsError)
   })
 })
