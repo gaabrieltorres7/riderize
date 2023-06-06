@@ -14,8 +14,8 @@ export class GetUsersUseCase {
   constructor(private userRepository: IUserRepository) {}
 
   async execute({
-    skip,
-    take,
+    skip = 0,
+    take = 10,
   }: GetUsersUseCaseRequest): Promise<GetUsersUseCaseResponse> {
     const users = await this.userRepository.findAll(skip, take)
     return {
