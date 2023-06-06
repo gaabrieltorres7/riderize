@@ -24,12 +24,8 @@ describe('Get Users useCase', () => {
       password: 'valid_password2',
     })
 
-    const { users } = await sut.execute({
-      skip: 0,
-      take: 2,
-    })
-    expect(users).toHaveLength(2)
-    expect(users[0].name).toBe('any_name')
+    const { users } = await sut.execute({})
+    expect(users[1].name).toBe('any_name2')
   })
 
   it('should be able to get users with pagination', async () => {
