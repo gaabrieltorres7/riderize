@@ -2,8 +2,8 @@ import { IUserRepository } from '../Repositories/UserRepository'
 import { User } from '@prisma/client'
 
 interface GetUsersUseCaseRequest {
-  skip: number
-  take: number
+  skip?: number
+  take?: number
 }
 
 interface GetUsersUseCaseResponse {
