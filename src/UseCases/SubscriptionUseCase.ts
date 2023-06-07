@@ -1,6 +1,6 @@
 import { SubscriptionOnPedais } from '@prisma/client'
-import { PrismaSubscriptionsRepository } from '../Repositories/Prisma/Prisma-SubscriptionsRepository'
-import { PrismaPedalRepository } from '../Repositories/Prisma/Prisma-PedalRepository'
+import { ISubscriptionRepository } from '../Repositories/SubscriptionRepository'
+import { IPedalRepository } from '../Repositories/PedalRepository'
 import {
   ResourceNotFoundError,
   ParticipantsLimitReachedError,
@@ -19,8 +19,8 @@ interface ISubscriptionUseCaseResponse {
 
 export class SubscriptionUseCase {
   constructor(
-    private subscriptionsRepository: PrismaSubscriptionsRepository,
-    private pedalRepository: PrismaPedalRepository,
+    private subscriptionsRepository: ISubscriptionRepository,
+    private pedalRepository: IPedalRepository,
   ) {}
 
   async execute({
@@ -56,6 +56,7 @@ export class SubscriptionUseCase {
     const subscription = await this.subscriptionsRepository.create({
       ride_id,
       user_id,
+      subscription_date: new Date(),
     })
 
     return {
