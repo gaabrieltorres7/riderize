@@ -37,4 +37,14 @@ export class InMemorySubscriptionsRepository implements ISubscriptionRepository 
     const subscriptions = this.items.filter((item) => item.user_id === user_id)
     return subscriptions
   }
+
+  async findSubscriptionByRideIdAndUserId(ride_id: number, user_id: number) {
+    const subscription = this.items.find(
+      (item) => item.ride_id === ride_id && item.user_id === user_id,
+    )
+    if (!subscription) {
+      return null
+    }
+    return subscription
+  }
 }
