@@ -3,7 +3,11 @@ import { InMemoryUserRepository } from '../Repositories/In-Memory/In-Memory-User
 import { InMemoryPedalRepository } from '../Repositories/In-Memory/In-Memory-PedalRepository'
 import { InMemorySubscriptionsRepository } from '../Repositories/In-Memory/In-Memory-SubscriptionsRepository'
 import { SubscriptionUseCase } from './SubscriptionUseCase'
-import { UserAlreadySubscribedError, ResourceNotFoundError } from './Errors'
+import {
+  UserAlreadySubscribedError,
+  ResourceNotFoundError,
+  ParticipantsLimitReachedError,
+} from './Errors'
 
 let usersRepository: InMemoryUserRepository
 let pedalRepository: InMemoryPedalRepository
@@ -95,5 +99,43 @@ describe('Subscription on pedals useCase', () => {
         user_id: user.id,
       })
     }).rejects.toBeInstanceOf(ResourceNotFoundError)
+  })
+
+  it('should not be able to subscribe on pedal which limit was reached', async () => {
+    for (let i = 1; i <= 5; i++) {
+      await usersRepository.create({
+        name: 'any_name',
+        email: `valid_email${i}@mail.com`,
+        password: 'valid_password',
+      })
+    }
+
+    const pedal = await pedalRepository.create({
+      id: 1,
+      name: 'Teste',
+      start_date: new Date(2023, 9, 9),
+      start_date_registration: new Date(2023, 6, 6),
+      end_date_registration: new Date(2023, 8, 9),
+      additional_information: 'Teste',
+      start_place: 'Teste',
+      participants_limit: 2,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      authorId: 1,
+    })
+
+    for (let i = 1; i <= 2; i++) {
+      await sut.execute({
+        ride_id: pedal.id,
+        user_id: i,
+      })
+    }
+
+    expect(async () => {
+      await sut.execute({
+        ride_id: pedal.id,
+        user_id: 3,
+      })
+    }).rejects.toBeInstanceOf(ParticipantsLimitReachedError)
   })
 })
