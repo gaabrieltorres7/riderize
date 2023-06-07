@@ -3,7 +3,7 @@ import { InMemoryUserRepository } from '../Repositories/In-Memory/In-Memory-User
 import { InMemoryPedalRepository } from '../Repositories/In-Memory/In-Memory-PedalRepository'
 import { InMemorySubscriptionsRepository } from '../Repositories/In-Memory/In-Memory-SubscriptionsRepository'
 import { SubscriptionUseCase } from './SubscriptionUseCase'
-import { UserAlreadySubscribedError } from './Errors'
+import { UserAlreadySubscribedError, ResourceNotFoundError } from './Errors'
 
 let usersRepository: InMemoryUserRepository
 let pedalRepository: InMemoryPedalRepository
@@ -80,5 +80,20 @@ describe('Subscription on pedals useCase', () => {
         user_id: user.id,
       })
     }).rejects.toBeInstanceOf(UserAlreadySubscribedError)
+  })
+
+  it('should not be able to subscribe on pedal that does not exist', async () => {
+    const user = await usersRepository.create({
+      name: 'any_name',
+      email: 'valid_email@mail.com',
+      password: 'valid_password',
+    })
+
+    await expect(async () => {
+      await sut.execute({
+        ride_id: 1,
+        user_id: user.id,
+      })
+    }).rejects.toBeInstanceOf(ResourceNotFoundError)
   })
 })
