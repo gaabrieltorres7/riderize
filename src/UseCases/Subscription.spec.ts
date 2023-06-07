@@ -7,6 +7,7 @@ import {
   UserAlreadySubscribedError,
   ResourceNotFoundError,
   ParticipantsLimitReachedError,
+  RegistrationPeriodEndedError,
 } from './Errors'
 
 let usersRepository: InMemoryUserRepository
@@ -137,5 +138,34 @@ describe('Subscription on pedals useCase', () => {
         user_id: 3,
       })
     }).rejects.toBeInstanceOf(ParticipantsLimitReachedError)
+  })
+
+  it('should not be able to subscribe on pedal that the period has ended', async () => {
+    const user = await usersRepository.create({
+      name: 'any_name',
+      email: 'valid_email@mail.com',
+      password: 'valid_password',
+    })
+
+    const pedal = await pedalRepository.create({
+      id: 1,
+      name: 'Teste',
+      start_date: new Date(2020, 1, 1),
+      start_date_registration: new Date(2020, 1, 1),
+      end_date_registration: new Date(2019, 12, 31),
+      additional_information: 'Teste',
+      start_place: 'Teste',
+      participants_limit: 10,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      authorId: user.id,
+    })
+
+    expect(async () => {
+      await sut.execute({
+        ride_id: pedal.id,
+        user_id: user.id,
+      })
+    }).rejects.toBeInstanceOf(RegistrationPeriodEndedError)
   })
 })
