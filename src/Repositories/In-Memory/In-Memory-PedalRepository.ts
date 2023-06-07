@@ -42,6 +42,11 @@ export class InMemoryPedalRepository implements IPedalRepository {
     return pedals
   }
 
+  async findById(ride_id: number) {
+    const pedal = this.items.find((p) => p.id === ride_id)
+    return pedal
+  }
+
   async findByName(name: string) {
     const pedal = this.items.find((item) => item.name === name)
     return pedal
