@@ -1,36 +1,77 @@
-# backend-test :genie:
+<h1 align="center" style="font-weight: bold;">Riderize API 💻</h1>
 
-## challenge context
-Create an API that will allow the creation of pedals by users, in addition to that other users will be able to view these pedals and join them so that on the scheduled day those who signed up can pedal in a group.
+<p align="center">
+ • <a href="#technologies">Technologies</a> • 
+ <a href="#started">Getting Started</a> • 
+ <a href="#colab">Collaborators</a>
+</p>
 
-## requirements :heavy_exclamation_mark:
+<p align="center">
+    <b>Create an API that will allow the creation of pedals by users, in addition to that other users will be able to view these pedals and join them so that on the scheduled day those who signed up can pedal in a group.</b>
+</p>
 
-- list the pedals that the user participated in;
-- list the pedals that the user created;
-- Do not allow enrollment in pedals after the last enrollment date;
+<h2 id="technologies">💻 Technologies</h2>
 
-To enable users to join pedals, the following data must be provided:
- - ride_id
- - user_id
- - subscription_date
- 
- ## Techs used :technologist:
-  - Node.js
-  - TypeScript
-  - Express
-  - PostgreSQL
-  - Prisma
-  - Docker
-  
-## How to run this project:
+- NodeJS
+- TypeScript
+- Express
+- PostgreSQL
+- Docker
 
-you need to have Docker installed****
+<h2 id="started">🚀 Getting started</h2>
 
-- Clone this repository: git clone https://github.com/gaabrieltorres7/riderize.git
-- Install the dependencies: cd riderize > npm install
-- Create a .env file and set the environment variables required.
-- Start the database and app using Docker: docker compose up
-- Run the database migrations: npx prisma migrate dev
+<h3>Prerequisites</h3>
 
+- NodeJS
+- Git
+- Docker
 
+<h3>Cloning</h3>
 
+```bash
+git clone https://github.com/gaabrieltorres7/riderize
+```
+
+<h3>Config .env variables</h2>
+
+Use the `.env.example` as reference to create your configuration file `.env`
+
+```yaml
+POSTGRES_DB=example
+POSTGRES_USER=example
+POSTGRES_PASSWORD=example
+APP_PORT=3000
+DATABASE_URL=postgresql://example:example@localhost:5432/example?schema=public
+JWT_SECRET=example
+```
+
+<h3>Starting</h3>
+
+```bash
+cd riderize
+npm i
+npm run dev
+npm run test
+npm run test:watch
+```
+
+<h2 id="colab">🤝 Collaborators</h2>
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="#">
+        <img src="https://avatars.githubusercontent.com/u/98062444?v=4" width="100px;" alt="Gabriel Torres Profile Picture"/><br>
+        <sub>
+          <b>Gabriel Torres</b>
+        </sub>
+      </a>
+    </td>
+  </tr>
+</table>
+
+<h3>If you want to contribute, here are some documentations that might help</h3>
+
+[📝 How to create a Pull Request](https://www.atlassian.com/br/git/tutorials/making-a-pull-request)
+
+[💾 Commit pattern](https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716)
