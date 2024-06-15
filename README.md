@@ -51,9 +51,7 @@ JWT_SECRET=example
 ```bash
 cd riderize
 npm i
-npm run dev
-npm run test
-npm run test:watch
+docker compose up
 ```
 
 <h2 id="colab">🤝 Collaborators</h2>
